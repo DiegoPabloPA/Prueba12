@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  database:
+    container_name: database
+    restart: always
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+  backend:
+    container_name: backend
+    restart: always
+    image: diegopablopa/backend_p1_201900226
+    ports:
+      - "4000:4000"
+    depends_on:
+      - database
+    links:
+      - database
+  frontend:
+    container_name: frontend
+    restart: always
+    image: diegopablopa/frontend_p1_201900226
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    links:
+      - backend
